@@ -13,36 +13,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Brand {
-  id        Int       @id @default(autoincrement())
-  name      String
-  website   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Product   Product[]
-}
-
 model Product {
   id          Int      @id @default(autoincrement())
   thumbnail   String
   name        String
   price       Int
-  currency    Currency
   description String
   upc12       String
   discount    Float
   units       Int
   inStock     Boolean
-  brandId     Int
+  brandName   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  brand       Brand    @relation(fields: [brandId], references: [id])
 
-  @@index([brandId])
-}
-
-enum Currency {
-  INR
-  ZAR
-  USD
+  @@index([brandName, name, upc12])
 }
